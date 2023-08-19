@@ -1,4 +1,4 @@
 from django.contrib import admin
-from participants.models import Participants
+from participants.models import Participant
 
-admin.site.register(Participants)
+admin.site.register(Participant)

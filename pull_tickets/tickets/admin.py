@@ -1,4 +1,4 @@
 from django.contrib import admin
-from tickets.models import Tickets
+from tickets.models import Ticket
 
-admin.site.register(Tickets)
+admin.site.register(Ticket)

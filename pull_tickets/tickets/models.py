@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
+class Tickets(models.Model):
+    topic = models.CharField(max_length=255)
+    is_available = models.SmallIntegerField(default=0)

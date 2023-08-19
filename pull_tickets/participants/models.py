@@ -3,7 +3,7 @@ from django.db import models
 from tickets.models import Tickets
 
 
-class Participant(models.Model):
+class Participants(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     code_for_link = models.CharField(max_length=10, blank=True)

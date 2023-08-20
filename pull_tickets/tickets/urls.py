@@ -1,7 +1,9 @@
-from django.urls import path
+from django.urls import path, re_path
 
-from . import views
+# from . import views
+from .views import TicketList
 
 urlpatterns = [
-    path('', views.show_tickets, name='tickets'),
+    re_path('api/tickets+', TicketList.as_view()),
+    # path('', views.show_tickets, name='tickets'),
 ]

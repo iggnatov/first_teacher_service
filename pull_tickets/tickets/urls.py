@@ -1,9 +1,13 @@
-from django.urls import path, re_path
+from django.urls import path, include
+from rest_framework import routers
+from .views import TicketViewSet, show_tickets
 
-# from . import views
-from .views import TicketList
+router = routers.DefaultRouter()
+router.register(r'api/tickets', TicketViewSet)
 
 urlpatterns = [
-    re_path('api/tickets+', TicketList.as_view()),
-    # path('', views.show_tickets, name='tickets'),
+    path('', include(router.urls)),
+    path('all', show_tickets)
 ]
+
+urlpatterns += router.urls

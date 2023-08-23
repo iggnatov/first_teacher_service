@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container">
+    <header class="bg-primary text-center py-2" id="participants">
+        <h2 class="text-white">Итоговая таблица</h2>
+    </header>
+</div>
+
+
+{% verbatim %}
+<div class="container table-responsive-sm">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="col-2">№</th>
+                <th scope="col" class="col-5">Участник</th>
+                <th scope="col" class="col-5">Тема</th>
+            </tr>
+        </thead>
+
+        <tbody id="participants-table">
+            <tr v-for="participant in participants">
+                <td class="col-2">{{ participant.id }}</td>
+                <td class="col-5">{{ participant.last_name }} {{ participant.first_name[0] }}.</td>
+                <td class="col-5">{{ participant.chosen_ticket }}</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+{% endverbatim %}
+{% endblock content %}

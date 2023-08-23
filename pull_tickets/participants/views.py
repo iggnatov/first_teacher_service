@@ -1,19 +1,24 @@
 from django.http import HttpResponse
+from django.shortcuts import render
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from participants.models import Participant
+from participants.serializers import ParticipantSerializer
+from tickets.models import Ticket
+from tickets.serializers import TicketSerializer
 
-def index(request):
-    return HttpResponse("Participants")
+
+def show_participants(request):
+    return render(request, 'participants.html')
 
 
-class AppRate(APIView):
-    @staticmethod
-    def get(request):
-        # code = self.request.query_params.get('spec_code')
-        # mark = self.request.query_params.get('mark')
-        # grade = self.request.query_params.get('grade')
-
-        # queryset = Application.objects.filter(spec_c
-        response = {}
-        return Response(response)
+class ParticipantsViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows participants to be viewed or edited.
+    """
+    queryset = Participant.objects.exclude(chosen_ticket=None)
+    serializer_class = ParticipantSerializer
+    queryset2 = Ticket.objects.filter(is_available=0)
+    serializer_class2 = TicketSerializer

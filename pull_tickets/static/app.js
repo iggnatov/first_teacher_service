@@ -5,10 +5,13 @@ new Vue({
     },
     created: function () {
         const vm = this;
-        axios.get('/tickets/api/tickets/')
+        const personal = document.location.search;
+        axios.get('/tickets/api/tickets/' + personal)
         .then(function (response) {
         vm.tickets = response.data
         console.log(response.data)
+        console.log(personal)
         })
     }
-})
+});
+

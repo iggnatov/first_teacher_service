@@ -12,5 +12,5 @@ class TicketViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows tickets to be viewed or edited.
     """
-    queryset = Ticket.objects.all()
+    queryset = Ticket.objects.filter(is_available=1)
     serializer_class = TicketSerializer

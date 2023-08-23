@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Первый учитель</title>
   <link rel="stylesheet" href="styles/bootstrap.min.css">
+  <script src="https://unpkg.com/vue@2.6.14"></script>
 </head>
 <body>
 <div id="app">
@@ -13,8 +14,8 @@
   </header>
   <div class="container mt-3">
     <div class="container">
-      <button class="btn btn-info" @click="showModal">show modal</button>
-      <example-modal ref="modal"></example-modal>
+<!--       <button class="btn btn-info" @click="showModal">show modal</button>
+      <example-modal ref="modal"></example-modal> -->
     </div>
     <div>
       <div class="text-center" v-if="chosenTopic">
@@ -25,14 +26,14 @@
         <h3>Вы выбрали тему: {{ chosenTopic.name }}</h3>
         <p>Вопрос: {{ chosenTopic.description }}</p>
       </div>
-      <h2 class="text-center mb-3">Выберите тему</h2>
+      <h2 class="text-center my-4">Выберите тему</h2>
       <div class="row">
         <div class="col-sm-3 mb-4" v-for="topic in topics" :key="topic.id" v-if="topic.available">
           <div class="card">
             <div class="card-header">{{ topic.name }}</div>
             <div class="card-body">
               <p class="card-text">{{ topic.description }}</p>
-              <button @click="selectTopic(topic)" class="btn btn-primary">Выбрать</button>
+              <button @click="() => { showModal(); selectTopic(topic); }" class="btn btn-primary">Выбрать</button>
             </div>
           </div>
         </div>
@@ -43,40 +44,23 @@
 <!--    <p>2023</p>-->
 <!--  </footer>-->
 
-<!--  <div class="modal" >-->
-<!--    <div class="modal-dialog">-->
-<!--      <div class="modal-content">-->
-<!--        <div class="modal-header">Вы точно хотите выбрать эту тему: {{ chosenTopic.name }}?</div>-->
-<!--        <div class="modal-body">-->
-<!--          <div class="form-group">-->
-<!--            <label for="participantIdInput">Введите ваш ID:</label>-->
-<!--            <input type="text" class="form-control" id="participantIdInput" v-model="participantIdInput" placeholder="ID участника">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="modal-footer">-->
-<!--          <button type="button" class="btn btn-secondary" @click="closeConfirmationModal">Отмена</button>-->
-<!--          <button type="button" class="btn btn-primary" @click="confirmSelection">Подтвердить</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div v-if="isModalVisible" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Подтвердите ваш выбор</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          hihi
+          <h3>Выбрать тему: {{ chosenTopic.name }}?</h3>
+            <p>Вопрос: {{ chosenTopic.description }}</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button @click="cancelTopic()" type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button @click="confirmTopic()" type="button" class="btn btn-primary">Подтвердить</button>
         </div>
       </div>
     </div>
@@ -86,6 +70,7 @@
 <script src="scripts/vue.js"></script>
 <script src="scripts/code.jquery.com_jquery-3.7.0.min.js"></script>
 <script src="scripts/jquery-ui.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="scripts/main4.js"></script>
 </body>
 </html>

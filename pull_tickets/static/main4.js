@@ -45,8 +45,9 @@ new Vue({
                 { id: 'T40', name: 'Тема 40', description: 'Описание вопроса 40', available: true },
             ],
             chosenTopic: null,
-            confirmationModalVisible: false,
-            participantIdInput: '',
+            isModalVisible: false,
+            participantCode: "",
+            topicValue: "",
         };
     },
     computed: {
@@ -57,37 +58,61 @@ new Vue({
     methods: {
         selectTopic(topic) {
             this.chosenTopic = topic;
-            this.confirmationModalVisible = true;
-            this.topics = this.topics.map((t) => {
-                if (t.id === topic.id) {
-                    return { ...t, available: false };
-                } else {
-                    return t;
-                }
-            });
-
+           this.showModal();
             },
-        closeConfirmationModal() {
-            this.confirmationModalVisible = false;
-            this.participantIdInput = '';
-            this.chosenTopic = null;
-        },
-        confirmSelection() {
-            const selectedTopic = this.chosenTopic;
-            const participantId = this.participantIdInput;
+         showModal() {
+      this.isModalVisible = true;
+    },
 
-            if (participantId) {
-                alert('Вы выбрали тему: ' + selectedTopic.name + '. Ваш ID: ' + participantId);
-            } else {
-                alert('Пожалуйста, введите ваш ID');
-                return; // Выходим из метода без закрытия модального окна
-            }
+    cancelTopic() {
+        this.chosenTopic = null;
+        this.hideModal();
+    },
 
-            this.closeConfirmationModal();
-        },
-        showModal() {
-            let element = this.$refs.modal.$el
-            $(element).modal('show')
+    hideModal() {
+        this.isModalVisible = false;      
+        const modalBackdrop = document.getElementsByClassName("modal-backdrop");
+        if (modalBackdrop[0]) {
+            modalBackdrop[0].parentNode.removeChild(modalBackdrop[0]);
         }
+        document.body.classList.remove("modal-open");
+    },
+    confirmTopic() {
+        const selectedTopic = this.chosenTopic;
+        const url = `https://my-school.online/tickets/api/tickets?code=${this.participantCode}&topic=${selectedTopic.id}`;
+    alert(url);
+    this.topics = this.topics.map((t) => {
+      if (t.id === selectedTopic.id) {
+        return { ...t, available: false };
+      } else {
+        return t;
+      }
+    });
+    this.hideModal(); 
+    },
+    
+    extractParamsFromURL(url) {
+      const params = new URLSearchParams(new URL(url).search);
+      this.participantCode = params.get("code");
+      this.topicValue = params.get("topic");
     }
+},
+    mounted() {
+        //alert(window.location.href);
+    
+        const exampleURL = "https://my-school.online/tickets/api/tickets?code=2000123&topic=1";
+        this.extractParamsFromURL(exampleURL);
+        // В результате, this.participantCode будет равен '2000123', а this.topicValue будет равен '1'
+    
+        //Нужно обновление страницы до актуального перечня тем
+        //  setInterval(() => {
+        //   this.topics = this.topics.map((t) => {
+        //     if (t.id === topic.id) {
+        //         return { ...t, available: false };
+        //     } else {
+        //         return t;
+        //     }
+        // });
+        // }, 200);
+      }
 });

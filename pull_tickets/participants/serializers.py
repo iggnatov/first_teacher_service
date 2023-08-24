@@ -10,7 +10,9 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         rep = super(ParticipantSerializer, self).to_representation(instance)
-        rep['chosen_ticket'] = instance.chosen_ticket.topic
-        return rep
-
-        # fields = ['id', 'first_name', 'last_name', 'code_for_link', 'email', 'chosen_ticket', 'chosen_date']
+        try:
+            rep['chosen_ticket'] = instance.chosen_ticket.topic
+            return rep
+        except AttributeError:
+            rep['chosen_ticket'] = 'None'
+            return rep

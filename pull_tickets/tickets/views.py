@@ -14,3 +14,5 @@ class TicketViewSet(viewsets.ModelViewSet):
     """
     queryset = Ticket.objects.filter(is_available=1)
     serializer_class = TicketSerializer
+
+

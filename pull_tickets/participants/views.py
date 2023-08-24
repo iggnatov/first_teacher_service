@@ -6,10 +6,10 @@ from rest_framework.views import APIView
 
 from participants.models import Participant
 from participants.serializers import ParticipantSerializer
+from tickets.models import Ticket
 
 
 def show_participants(request):
-
     return render(request, 'participants.html')
 
 
@@ -23,32 +23,19 @@ class ParticipantsViewSet(viewsets.ModelViewSet):
 
 
 class MyViewSet(APIView):
-    # queryset = Participant.objects.filter(chosen_ticket=None)
-    # serializer_class = ParticipantSerializer
+    def get(self, request):
+        cfl = self.request.query_params.get('cfl')
+        tid = self.request.query_params.get('tid')
 
-    def get_object(self, code_for_link):
-        print(code_for_link)
-        try:
-            return Participant.objects.get(code_for_link=code_for_link)
-        except Participant.DoesNotExist:
-            raise Http404
+        participant = Participant.objects.filter(code_for_link=cfl)
+        participant.chosen_ticket = tid
 
-    def get(self, request, code_for_link, format=None):
-        participant = self.get_object(code_for_link)
-        print(participant)
-        # serializer = ParticipantSerializer(participant)
-        # return Response(serializer.data)
-        serializer = ParticipantSerializer(participant, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        ticket = Ticket.objects.filter(pk=tid)
+        ticket.is_available = 0
 
-    def put(self, request, code_for_link, format=None):
-        participant = self.get_object(code_for_link)
-        print(participant)
-        serializer = ParticipantSerializer(participant, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        response = {
+            'y': len(participant),
+            'cfl': cfl,
+            'tid': tid
+        }
+        return Response(response, status=status.HTTP_200_OK)

@@ -10,7 +10,6 @@ new Vue({
             .then(function (response) {
                 vm.tickets = response.data
                 console.log(response.data)
-//                console.log(personal)
             })
     }
 });

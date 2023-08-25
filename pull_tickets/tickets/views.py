@@ -5,7 +5,16 @@ from tickets.serializers import TicketSerializer
 
 
 def show_tickets(request):
-    return render(request, "index.html")
+    return render(request, "tickets.html")
+
+
+def show_confirmation(request):
+    return render(request, 'confirmation.html')
+
+
+"""
+API
+"""
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -14,5 +23,3 @@ class TicketViewSet(viewsets.ModelViewSet):
     """
     queryset = Ticket.objects.filter(is_available=1)
     serializer_class = TicketSerializer
-
-

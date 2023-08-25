@@ -1,17 +1,16 @@
 from django.urls import path, re_path, include
 from rest_framework import routers
 
-from . import views
-from .views import ParticipantsViewSet, show_participants, MyViewSet
+from .views import ParticipantsViewSet, show_participants
 
-router = routers.SimpleRouter()
-router.register(r'api/participants+', ParticipantsViewSet)
-# router.register(r'api/makechoice+', MyViewSet)
+router = routers.DefaultRouter()
+router.register(r'participants+', ParticipantsViewSet)
 
 urlpatterns = [
-    re_path('', include(router.urls)),
-    re_path('api/makechoice+', MyViewSet.as_view()),
-    re_path('all', show_participants)
+    path('api/', include(router.urls)),
+    re_path('all+', show_participants)
 ]
 
 urlpatterns += router.urls
+
+

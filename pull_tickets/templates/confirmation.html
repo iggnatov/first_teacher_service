@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Header -->
+<div class="container">
+    <header class="bg-primary text-center py-3">
+        <h2 class="text-white">Спасибо, Вы выбрали тему:</h2>
+    </header>
+</div>
+<div class="mx-auto" style="width: 200px; text-align: center;">
+        <h3 style="margin-top: 50px;">Тема</h3>
+        <button onclick="location.href='/participants/all';" class="btn btn-primary">Посмотреть итоги</button>
+
+</div>
+
+{% endblock content %}

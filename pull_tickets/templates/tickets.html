@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Header -->
+<div class="container">
+    <header class="bg-primary text-center py-3">
+        <h2 class="text-white">Первый Учитель, выбери тему!</h2>
+    </header>
+</div>
+
+{% verbatim %}
+<!-- Content block -->
+<div class="container" id="tickets">
+    <div class="row">
+        <div class="col-sm-3 mb-4" v-for="ticket in tickets" :key="ticket.id">
+            <div class="card">
+                <div class="card-header"> {{ ticket.id }}</div>
+                <div class="card-body">
+                    <p class="card-text">{{ ticket.topic }} </p>
+                    <button :id="'b-' + ticket.id" onclick="onClick()" class="btn btn-primary">Выбрать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endverbatim %}
+
+
+<script src="/static/app.js"></script>
+
+<!--  -->
+<script>
+        function onClick() {
+            const chosen_ticket_id = event.target.id.replace('b-', '');
+            console.log(chosen_ticket_id);
+            const personal = document.location.search.replace('?', '');
+            console.log(personal);
+
+
+<!--            async function test() {-->
+<!--                await axios.get('/participants/api/makechoice?cfl=' + personal + '&tid=' + chosen_ticket_id)-->
+<!--                    .then(function (response) {-->
+<!--                        console.log(response.data)-->
+<!--                    });-->
+<!--                };-->
+<!--            test();-->
+            location.href='/tickets/confirmation';
+        }
+
+
+</script>
+
+
+{% endblock content %}

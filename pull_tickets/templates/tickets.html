@@ -17,6 +17,7 @@
                 <div class="card-header"> {{ ticket.id }}</div>
                 <div class="card-body">
                     <p class="card-text">{{ ticket.topic }} </p>
+
                     <button :id="'b-' + ticket.id" onclick="onClick()" class="btn btn-primary">Выбрать</button>
                 </div>
             </div>
@@ -29,25 +30,37 @@
 
 <script src="/static/app.js"></script>
 
+
+
+
 <!--  -->
 <script>
-        function onClick() {
-            const chosen_ticket_id = event.target.id.replace('b-', '');
-            console.log(chosen_ticket_id);
-            const personal = document.location.search.replace('?', '');
-            console.log(personal);
+    function onClick() {
 
+        const chosen_ticket_id = event.target.id.replace('b-', '');
+        console.log(chosen_ticket_id);
+        const personal = document.location.search.replace('?', '');
+        console.log(personal);
 
-<!--            async function test() {-->
-<!--                await axios.get('/participants/api/makechoice?cfl=' + personal + '&tid=' + chosen_ticket_id)-->
-<!--                    .then(function (response) {-->
-<!--                        console.log(response.data)-->
-<!--                    });-->
-<!--                };-->
-<!--            test();-->
-            location.href='/tickets/confirmation';
-        }
+        async function make_patch() {
+            const headers = { "X-CSRFTOKEN": "G9GOA4MV7GKfYjYS8mLXwUXICJswYWUW" }
+            await axios({
+                 method: 'patch',
+                 url: 'http://127.0.0.1:8000/tickets/api/changeticket/' + chosen_ticket_id + '/',
+                 data: {
+                     "participant_cfl": personal,
+                     "is_available": 0
+                     },
+                     headers: headers
+                 })
+                 .then(function (response) {
+                     console.log(response.data)
+                 });
+        };
+        make_patch();
 
+        location.href = '/tickets/confirmation';
+    }
 
 </script>
 

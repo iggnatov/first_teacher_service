@@ -16,3 +16,9 @@ class ParticipantSerializer(serializers.ModelSerializer):
         except AttributeError:
             rep['chosen_ticket'] = 'None'
             return rep
+
+
+class Participant2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participant
+        fields = '__all__'

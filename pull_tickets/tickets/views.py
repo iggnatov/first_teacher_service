@@ -49,3 +49,21 @@ class ChangeTicket(UpdateAPIView):
 
         return Response({"post": serializer.data})
 
+
+class CheckTickets(APIView):
+
+    def get(self, request):
+        cfl = self.request.query_params.get('personal')
+
+        queryset = Ticket.objects.all()
+
+        has_chosen = False
+        for elem in queryset:
+            if elem.participant_cfl is not None:
+                if cfl == elem.participant_cfl.code_for_link:
+                    has_chosen = True
+
+        response = {
+            'has_chosen': has_chosen
+        }
+        return Response(response)

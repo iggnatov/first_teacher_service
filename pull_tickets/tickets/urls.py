@@ -11,7 +11,7 @@ urlpatterns = [
     re_path('all+', show_tickets),
     path('confirmation/', show_confirmation),
     path('api/changeticket/<int:pk>/', ChangeTicket.as_view()),
-    path('api/checktickets/', CheckTickets.as_view())
+    re_path('api/checktickets+', CheckTickets.as_view())
 
 ]
 

@@ -1,3 +1,57 @@
-import axios from 'axios'
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-axios.defaults.xsrfCookieName = "csrftoken"
+let has_chosen = false;
+
+window.onload = function () {
+    console.log('Готов!');
+
+    const personal = document.location.search.replace('?', '');
+    console.log(personal);
+
+    async function check_ticket() {
+        const headers = { "X-CSRFTOKEN": "G9GOA4MV7GKfYjYS8mLXwUXICJswYWUW" }
+        await axios({
+            method: 'get',
+            url: 'http://127.0.0.1:8000/tickets/api/checktickets?personal=' + personal,
+            headers: headers
+        })
+            .then(function (response) {
+                console.log(response.data);
+                has_chosen = response.data['has_chosen'];
+                console.log(has_chosen)
+            });
+    };
+    check_ticket();
+};
+
+
+function onClick() {
+    const chosen_ticket_id = event.target.id.replace('b-', '');
+    console.log(chosen_ticket_id);
+    const personal = document.location.search.replace('?', '');
+    console.log(personal);
+
+    async function make_patch() {
+        const headers = { "X-CSRFTOKEN": "G9GOA4MV7GKfYjYS8mLXwUXICJswYWUW" }
+        await axios({
+            method: 'patch',
+            url: 'http://127.0.0.1:8000/tickets/api/changeticket/' + chosen_ticket_id + '/',
+            data: {
+                "participant_cfl": personal,
+                "is_available": 0
+            },
+            headers: headers
+        })
+            .then(function (response) {
+                console.log(response.data)
+            });
+    };
+
+    if (has_chosen == true) {
+        alert('You have already chosen');
+    }
+    else {
+        make_patch();
+        location.href = '/tickets/confirmation';
+    }
+    
+}
+

@@ -7,11 +7,9 @@ window.onload = function () {
     console.log(personal);
 
     async function check_ticket() {
-        const headers = { "X-CSRFTOKEN": "G9GOA4MV7GKfYjYS8mLXwUXICJswYWUW" }
         await axios({
             method: 'get',
-            url: 'http://127.0.0.1:8000/tickets/api/checktickets?personal=' + personal,
-            headers: headers
+            url: '/tickets/api/checktickets?personal=' + personal
         })
             .then(function (response) {
                 console.log(response.data);
@@ -33,7 +31,7 @@ function onClick() {
         const headers = { "X-CSRFTOKEN": "G9GOA4MV7GKfYjYS8mLXwUXICJswYWUW" }
         await axios({
             method: 'patch',
-            url: 'http://127.0.0.1:8000/tickets/api/changeticket/' + chosen_ticket_id + '/',
+            url: '/tickets/api/changeticket/' + chosen_ticket_id + '/',
             data: {
                 "participant_cfl": personal,
                 "is_available": 0

@@ -7,7 +7,6 @@ from rest_framework.views import APIView
 
 from participants.models import Participant
 from participants.serializers import ParticipantSerializer, Participant2Serializer
-from tickets.models import Ticket
 
 
 def show_participants(request):

@@ -6,6 +6,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from participants.models import Participant
 from tickets.models import Ticket
 from tickets.serializers import TicketSerializer
 
@@ -32,6 +33,12 @@ class TicketViewSet(viewsets.ModelViewSet):
 
 
 class ChangeTicket(UpdateAPIView):
+    @staticmethod
+    def write_topic(data):
+        participant = Participant.objects.get(code_for_link=data['participant_cfl'])
+        participant.chosen_ticket = data['topic']
+        participant.save()
+
 
     def patch(self, request, *args, **kwargs):
         pk = kwargs.get("pk", None)
@@ -46,6 +53,7 @@ class ChangeTicket(UpdateAPIView):
         serializer = TicketSerializer(data=request.data, instance=instance)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        self.write_topic(serializer.data)
 
         return Response({"post": serializer.data})
 

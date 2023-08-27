@@ -44,7 +44,7 @@ function onClick() {
     };
 
     if (has_chosen == true) {
-        alert('You have already chosen');
+        alert('Вы уже выбрали тему. Второй раз выбрать нельзя.');
     }
     else {
         make_patch();

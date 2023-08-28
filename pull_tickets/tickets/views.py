@@ -85,14 +85,16 @@ class CheckTicketId(APIView):
     def get(self, request):
         tid = self.request.query_params.get('id')
 
-        has_chosen_id = False
+        is_ticket_available = True
 
         ticket = Ticket.objects.get(pk=tid)
+        print('ticket: ', ticket)
+        print('ticket.is_available: ', ticket.is_available)
         if ticket.is_available == 0:
-            has_chosen_id = True
+            is_ticket_available = False
 
         response = {
-            'has_chosen_id': has_chosen_id
+            'is_ticket_available': is_ticket_available
         }
 
         return Response(response)

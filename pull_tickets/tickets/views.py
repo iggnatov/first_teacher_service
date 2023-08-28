@@ -71,6 +71,9 @@ class CheckTickets(APIView):
                 if cfl == elem.participant_cfl.code_for_link:
                     has_chosen = True
 
+        if cfl == '':
+            has_chosen = True
+
         response = {
             'has_chosen': has_chosen
         }

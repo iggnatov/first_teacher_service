@@ -28,7 +28,7 @@ function onClick() {
     console.log(personal);
 
     async function make_patch() {
-        const headers = { "X-CSRFTOKEN": "G9GOA4MV7GKfYjYS8mLXwUXICJswYWUW" }
+        // const headers = { "X-CSRFTOKEN": "n0XfWS801fy1zLQpZBRltOE996pD4GN6" }
         await axios({
             method: 'patch',
             url: '/tickets/api/changeticket/' + chosen_ticket_id + '/',
@@ -36,7 +36,7 @@ function onClick() {
                 "participant_cfl": personal,
                 "is_available": 0
             },
-            headers: headers
+            // headers: headers
         })
             .then(function (response) {
                 console.log(response.data)

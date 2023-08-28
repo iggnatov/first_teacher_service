@@ -28,7 +28,7 @@ class TicketViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows tickets to be viewed or edited.
     """
-    queryset = Ticket.objects.filter(is_available=1)
+    queryset = Ticket.objects.filter(is_available=1).order_by('pk')
     serializer_class = TicketSerializer
 
 
@@ -77,4 +77,22 @@ class CheckTickets(APIView):
         response = {
             'has_chosen': has_chosen
         }
+        return Response(response)
+
+
+class CheckTicketId(APIView):
+
+    def get(self, request):
+        tid = self.request.query_params.get('id')
+
+        has_chosen_id = False
+
+        ticket = Ticket.objects.get(pk=tid)
+        if ticket.is_available == 0:
+            has_chosen_id = True
+
+        response = {
+            'has_chosen_id': has_chosen_id
+        }
+
         return Response(response)

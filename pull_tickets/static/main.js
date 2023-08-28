@@ -1,4 +1,5 @@
 let has_chosen = false;
+let has_chosen_id = false;
 
 window.onload = function () {
     console.log('Готов!');
@@ -27,6 +28,19 @@ function onClick() {
     const personal = document.location.search.replace('?', '');
     console.log(personal);
 
+    async function check_ticket_id() {
+        await axios({
+            method: 'get',
+            url: '/tickets/api/checkticketid?id=' + chosen_ticket_id
+        })
+            .then(function (response) {
+                console.log(response.data);
+                has_chosen_id = response.data['has_chosen_id'];
+                console.log(has_chosen_id)
+            });
+    };
+    
+
     async function make_patch() {
         // const headers = { "X-CSRFTOKEN": "n0XfWS801fy1zLQpZBRltOE996pD4GN6" }
         await axios({
@@ -43,8 +57,14 @@ function onClick() {
             });
     };
 
+
+    check_ticket_id();
+
     if (has_chosen == true) {
-        alert('Вы уже выбрали тему. Второй раз выбрать нельзя.');
+        alert('Вы уже выбрали тему. Второй раз выбрать тему или изменить свой выбор нельзя.');
+    }
+    else if (has_chosen_id == true) {
+        alert('Кто-то уже выбрал эту тему. Обновите страницу и попробуйте еще раз.');
     }
     else {
         make_patch();

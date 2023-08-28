@@ -22,7 +22,7 @@ class ParticipantsViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows participants to be viewed or edited.
     """
-    queryset = Participant.objects.all()
+    queryset = Participant.objects.all().order_by('last_name')
     serializer_class = ParticipantSerializer
 
 
